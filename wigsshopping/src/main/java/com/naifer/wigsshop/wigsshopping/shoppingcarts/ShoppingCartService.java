@@ -1,5 +1,6 @@
 package com.naifer.wigsshop.wigsshopping.shoppingcarts;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.naifer.wigsshop.wigsshopping.productcategories.exception.ProductCategoryNotFoundException;
+import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItem;
 
 @Component
 public class ShoppingCartService {
@@ -41,10 +43,17 @@ public class ShoppingCartService {
 		return savedCart.getId();
 	}
 	
-	public ShoppingCart updateCart(ShoppingCart cart) {
-		Optional<ShoppingCart> savedCategory = shoppingCartRepository.findById(cart.getId());
-		if(savedCategory.isEmpty())
+	public ShoppingCart addToCart(ShoppingCart cart, ShoppingCartItem item) {
+		
+		Optional<ShoppingCart> savedCart = shoppingCartRepository.findById(cart.getId());
+		if(savedCart.isEmpty())
 			throw new ProductCategoryNotFoundException("id"+ cart.getId());
+		
+		List<ShoppingCartItem> cartItems = new ArrayList<ShoppingCartItem>();
+		
+		cartItems =	savedCart.get().getItems();
+		cartItems.add(item);
+		cart.setItems(cartItems);
 		
 		return shoppingCartRepository.save(cart);
 	}

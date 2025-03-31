@@ -1,5 +1,7 @@
 package com.naifer.wigsshop.wigsshopping.shoppingcarts;
 
+import java.lang.reflect.Type;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -9,12 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItem;
 import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingItemService;
 
@@ -26,6 +28,7 @@ public class ShoppingCartResource {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
+	@Autowired
 	private ShoppingItemService shoppingItemService;
 	
 	@GetMapping("shop/shoppingcarts")
@@ -48,37 +51,27 @@ public class ShoppingCartResource {
 		return	shoppingCartService.createCart(numericDate).toString();
 	}
 	
-	@SuppressWarnings("unchecked")
-	@PutMapping("shop/shoppingcarts/update")
-	public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date,  @Valid @RequestParam("items") String items, @Valid @RequestParam("id") String id){
-		
-		ObjectMapper objectmapper = new ObjectMapper();
-	
-		List<ShoppingCartItem> actualItems = List.of();
-		List<ShoppingCartItem> itemsTosave = List.of();
-		
-		
-	
-		try {
-			actualItems = objectmapper.readValue(items, List.class);
-		} catch (JsonProcessingException exception) {
-			exception.printStackTrace();
-		}
-	
+
+	@PutMapping("shop/shoppingcarts/addToCart")
+	//public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date,  @Valid @RequestParam("items") String items, @Valid @RequestParam("id") String id){
+	public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date, @Valid @RequestParam("id") String id, @Valid @RequestParam("item") String item){
+
+        List<ShoppingCartItem> itemsTosave = new ArrayList<ShoppingCartItem>();
+			
+		Gson gson = new Gson();
+	   // Type listType = new ShoppingCartItem() {}.getType();
+
+    	ShoppingCartItem actualItem = gson.fromJson(item, ShoppingCartItem.class);
+
 		ShoppingCart cart = new ShoppingCart();
 		Double numericDate = Double.parseDouble(date);
 		UUID actualId = UUID.fromString(id);
-	
-		actualItems.forEach(item -> 
-		{
-			itemsTosave.add(shoppingItemService.SaveItem(item));
-		});
-	
-		System.out.println(itemsTosave);
+		itemsTosave.add(actualItem);
+		
 		cart.setId(actualId);
-		cart.setItems(itemsTosave);
+		//cart.setItems(itemsTosave);
 		cart.setDateCreated(numericDate);
-		ShoppingCart updatedCart =	shoppingCartService.updateCart(cart);
+		ShoppingCart updatedCart =	shoppingCartService.addToCart(cart, actualItem);
 		EntityModel<ShoppingCart> entityModel = EntityModel.of(updatedCart);
 		return entityModel;
 	}

@@ -12,6 +12,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity(name="Shopping_Carts")
@@ -24,8 +26,8 @@ public class ShoppingCart {
 	@Column(name="date_created")
 	private Double dateCreated;
 	
-	@OneToMany(cascade=CascadeType.MERGE)
-	@JoinColumn(name="fk_id")
+	@OneToMany(cascade=CascadeType.ALL)
+	@JoinColumn(name="fk_cart_id", referencedColumnName = "id" )
 	private List<ShoppingCartItem> items;
 
 	public ShoppingCart() {

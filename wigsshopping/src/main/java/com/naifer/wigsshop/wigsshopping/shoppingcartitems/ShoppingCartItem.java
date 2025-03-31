@@ -3,6 +3,7 @@ package com.naifer.wigsshop.wigsshopping.shoppingcartitems;
 import java.util.UUID;
 
 import com.naifer.wigsshop.wigsshopping.products.Product;
+import com.naifer.wigsshop.wigsshopping.shoppingcarts.ShoppingCart;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -10,14 +11,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
-@Entity(name="Shopping_Cart_Items")
+@Entity(name="Shop_Cart_Items")
 public class ShoppingCartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	@OneToOne(cascade=CascadeType.MERGE)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_id")
 	private Product product;
 	private Integer quantity;
@@ -63,5 +66,4 @@ public class ShoppingCartItem {
 		return "ShoppingCartItem [id=" + id + ", product=" + product + ", quantity=" + quantity + "]";
 	}
 
-	
 }
