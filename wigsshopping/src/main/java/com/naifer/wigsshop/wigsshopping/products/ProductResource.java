@@ -54,10 +54,6 @@ public class ProductResource {
 		}
 		
 		Product savedProduct = productService.saveProduct(price, title, imageFile, productCategory);
-		System.out.println(category);
-		
-		
-		
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
 					   .path("/{id}")

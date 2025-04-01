@@ -1,24 +1,42 @@
-package com.naifer.wigsshop.wigsshopping.orders;
+package com.naifer.wigsshop.wigsshopping.shippings;
 
+import java.util.UUID;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity(name="shipping_info")
 public class ShippingInfo {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.UUID)
+	private UUID id;
+	@Column(name="customer_name")
 	private String customerName;
+	@Column(name="address_line1")
 	private String addressLine1;
+	@Column(name="address_line2")
 	private String addressLine2;
 	private String city;
 	private String state;
 	private String country;
+	@Column(name="zip_code")
 	private String zipCode;
+	@Column(name="phone_number")
 	private String phoneNumber;
 	
 	public ShippingInfo() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
-	public ShippingInfo(String customerName, String addressLine1, String addressLine2, String city, String state,
-			String country, String zipCode, String phoneNumber) {
+
+	public ShippingInfo(UUID id, String customerName, String addressLine1, String addressLine2, String city,
+			String state, String country, String zipCode, String phoneNumber) {
 		super();
+		this.id = id;
 		this.customerName = customerName;
 		this.addressLine1 = addressLine1;
 		this.addressLine2 = addressLine2;
@@ -27,6 +45,14 @@ public class ShippingInfo {
 		this.country = country;
 		this.zipCode = zipCode;
 		this.phoneNumber = phoneNumber;
+	}
+
+	public UUID getId() {
+		return id;
+	}
+
+	public void setId(UUID id) {
+		this.id = id;
 	}
 
 	public String getCustomerName() {
@@ -95,8 +121,10 @@ public class ShippingInfo {
 
 	@Override
 	public String toString() {
-		return "ShippingInfo [customerName=" + customerName + ", addressLine1=" + addressLine1 + ", addressLine2="
-				+ addressLine2 + ", city=" + city + ", state=" + state + ", country=" + country + ", zipCode=" + zipCode
-				+ ", phoneNumber=" + phoneNumber + "]";
-	}	
+		return "ShippingInfo [id=" + id + ", customerName=" + customerName + ", addressLine1=" + addressLine1
+				+ ", addressLine2=" + addressLine2 + ", city=" + city + ", state=" + state + ", country=" + country
+				+ ", zipCode=" + zipCode + ", phoneNumber=" + phoneNumber + "]";
+	}
+	
+	
 }
