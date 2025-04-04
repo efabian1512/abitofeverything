@@ -58,7 +58,7 @@ public class SecurityConfig {
 		return http.csrf(AbstractHttpConfigurer::disable)
 				//.formLogin(withDefaults())
 				.authorizeHttpRequests(auth ->{
-				auth.requestMatchers("/shop/products","/users/getAll", "/users/delete/**", "/users/register", "/shop/authenticate")
+				auth.requestMatchers("/shop/products","/users/getAll", "/users/delete/**", "/users/register", "/shop/authenticate", "confirmation-token/delete/**", "confirmation-token/getAll", "confirm-email")
 				.permitAll()
 				.requestMatchers("/shop/items").authenticated();
 				
