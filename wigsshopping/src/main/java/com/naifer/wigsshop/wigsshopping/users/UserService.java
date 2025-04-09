@@ -109,4 +109,23 @@ public class UserService {
 		emailTokenRepository.delete(emailConfirmationToken);
 		return true;
 	}
+	
+	public UserInfo getUser(String username) {
+		Optional<UserInfo> savedUser = userRepository.findByEmail(username);
+		
+		if(savedUser.isEmpty())
+			throw new RuntimeException("User not found");
+		
+		return savedUser.get();
+	}
+	
+	public UserInfo updateUser(UserInfo user) {
+		Optional<UserInfo> savedUser = userRepository.findById(user.getId());
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		
+		if(savedUser.isEmpty())
+			throw new RuntimeException("User not found");
+		
+		return userRepository.save(user);
+	}
 }
