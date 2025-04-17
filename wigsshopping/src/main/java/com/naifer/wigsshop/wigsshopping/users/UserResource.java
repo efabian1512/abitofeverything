@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityModel;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ import jakarta.validation.Valid;
 public class UserResource {
 	@Autowired
 	private UserService userService; 
-	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("users/getAll")
 	public List<UserInfo> getUsers(){
 		return userService.getUsers();
@@ -35,6 +36,7 @@ public class UserResource {
 		return userService.addUser(userInfo);
 	}
 	
+	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@DeleteMapping("users/delete/{id}")
 	public String deleteUser(@PathVariable UUID id) {
 		return userService.deleteUser(id);

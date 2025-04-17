@@ -1,5 +1,6 @@
 package com.naifer.wigsshop.wigsshopping.products;
 
+import java.util.Arrays;
 import java.util.UUID;
 
 import com.naifer.wigsshop.wigsshopping.productcategories.ProductCategory;
@@ -12,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Transient;
 
 @Entity(name="Shopping_Products")
 public class Product {
@@ -21,7 +23,7 @@ public class Product {
 	private UUID id;
 	private String title;
 	private double price;
-	@ManyToOne(cascade = CascadeType.MERGE)
+	@ManyToOne()
 	@JoinColumn(name="fk_id")
 	private ProductCategory category;
 
@@ -31,11 +33,18 @@ public class Product {
 	@Column(name = "image_type")
 	private String imageType;
 	
+	@Column(name = "image_name")
+	private String imageName;
+	
+	@Transient 
+	private byte[] productImage;
+	
 	public Product() {
 		super();
 	}
-	
-	public Product(UUID id, String title, double price, ProductCategory category, String imagePath, String imageType) {
+
+	public Product(UUID id, String title, double price, ProductCategory category, String imagePath, String imageType,
+			String imageName, byte[] productImage) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -43,6 +52,8 @@ public class Product {
 		this.category = category;
 		this.imagePath = imagePath;
 		this.imageType = imageType;
+		this.imageName = imageName;
+		this.productImage = productImage;
 	}
 
 	public UUID getId() {
@@ -62,7 +73,7 @@ public class Product {
 	}
 
 	public double getPrice() {
-		return this.price;
+		return price;
 	}
 
 	public void setPrice(double price) {
@@ -93,10 +104,26 @@ public class Product {
 		this.imageType = imageType;
 	}
 
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public byte[] getProductImage() {
+		return productImage;
+	}
+
+	public void setProductImage(byte[] productImage) {
+		this.productImage = productImage;
+	}
+
 	@Override
 	public String toString() {
 		return "Product [id=" + id + ", title=" + title + ", price=" + price + ", category=" + category + ", imagePath="
-				+ imagePath + ", imageType=" + imageType + "]";
+				+ imagePath + ", imageType=" + imageType + ", imageName=" + imageName + ", productImage="
+				+ Arrays.toString(productImage) + "]";
 	}
-	
 }

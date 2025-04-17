@@ -24,7 +24,7 @@ public class ShoppingCartItemResource {
 
 	@Autowired
 	private ShoppingItemService shoppingItemService;
-	@PreAuthorize("hasAuthority('ROLE_USER')")
+	//@PreAuthorize("hasAuthority('ROLE_USER')")
 	@GetMapping("shop/items")
 	public List<ShoppingCartItem> getItems(){
 		return shoppingItemService.getItems();

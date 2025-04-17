@@ -54,24 +54,25 @@ public class ShoppingCartResource {
 
 	@PutMapping("shop/shoppingcarts/addToCart")
 	//public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date,  @Valid @RequestParam("items") String items, @Valid @RequestParam("id") String id){
-	public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date, @Valid @RequestParam("id") String id, @Valid @RequestParam("item") String item){
+	//public EntityModel<ShoppingCart> updateCart(@Valid @RequestParam("dateCreated") String date, @Valid @RequestParam("id") String id, @Valid @RequestParam("item") String item){
+	public EntityModel<ShoppingCart> updateCart(@Valid @RequestBody ShoppingCartInfo cartInfo ){
 
         List<ShoppingCartItem> itemsTosave = new ArrayList<ShoppingCartItem>();
 			
 		Gson gson = new Gson();
 	   // Type listType = new ShoppingCartItem() {}.getType();
 
-    	ShoppingCartItem actualItem = gson.fromJson(item, ShoppingCartItem.class);
+    	//ShoppingCartItem actualItem = gson.fromJson(item, ShoppingCartItem.class);
 
 		ShoppingCart cart = new ShoppingCart();
-		Double numericDate = Double.parseDouble(date);
-		UUID actualId = UUID.fromString(id);
-		itemsTosave.add(actualItem);
+		//Double numericDate = Double.parseDouble(cartInfo.getDateCreated());
+		UUID actualId = UUID.fromString(cartInfo.getCartId());
+		itemsTosave.add(cartInfo.getItem());
 		
 		cart.setId(actualId);
 		//cart.setItems(itemsTosave);
-		cart.setDateCreated(numericDate);
-		ShoppingCart updatedCart =	shoppingCartService.addToCart(cart, actualItem);
+		cart.setDateCreated(cartInfo.getDateCreated());
+		ShoppingCart updatedCart =	shoppingCartService.addToCart(cart, cartInfo.getItem());
 		EntityModel<ShoppingCart> entityModel = EntityModel.of(updatedCart);
 		return entityModel;
 	}

@@ -16,7 +16,7 @@ import com.naifer.wigsshop.wigsshopping.products.Product;
 public class ImageService implements IImageService {
 	
 	private final String IMAGES_FOLDER_PATH = "/Users/edwinfabian/Documents/abit-of-everything-shop-images/";
-	
+	//private final String IMAGES_FOLDER_PATH = "/src/main/java/com/naifer/wigsshop/wigsshopping/acess/images/";
 	
 	public void saveImage(MultipartFile imageFile) throws IOException {
 		imageFile.transferTo(new File(this.getImageFilePath(imageFile)));

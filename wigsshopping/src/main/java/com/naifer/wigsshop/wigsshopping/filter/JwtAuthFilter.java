@@ -1,6 +1,8 @@
 package com.naifer.wigsshop.wigsshopping.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,8 +34,15 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			throws ServletException, IOException {
 	
 		String authHeader = request.getHeader("Authorization");
+		String path = request.getRequestURI();
 		String token = null;
 		String username = null;
+		
+		//List<String> tokenNotNeededApis = Arrays.asList("/shop/categories", "/shop/products", "/shop/logout");
+		
+//		if(tokenNotNeededApis.contains(path)) {
+//			authHeader = null;
+//		}
 		
 		if(authHeader !=null && authHeader.startsWith("Bearer")) {
 			token = authHeader.substring(7);
