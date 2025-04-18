@@ -85,9 +85,9 @@ public class ProductService {
 		return productRepository.findById(id);
 	}
 	
-	public Product getProductById(UUID id) throws IOException {
+	public Product getProductByIdWithImageFile(UUID id) throws IOException {
 		
-		Optional<Product> savedProduct = productRepository.findById(id);
+		Optional<Product> savedProduct = getRawProduct(id);
 		
 		if(savedProduct.isEmpty())
 			throw new ProductNotFoundException("id"+id);
@@ -101,9 +101,18 @@ public class ProductService {
 		return retrievedProduct;
 	}
 	
+	public Product getProductById(UUID id) {
+	Optional<Product> savedProduct = getRawProduct(id);
+		
+		if(savedProduct.isEmpty())
+			throw new ProductNotFoundException("id"+id);
+		
+		return  savedProduct.get();
+	}
+	
 	public Product updateProduct(Product product, MultipartFile imageFile) throws IOException {
 		
-		Optional<Product> savedProduct = productRepository.findById(product.getId());
+		Optional<Product> savedProduct = getRawProduct(product.getId());
 		
 		
 		if(savedProduct.isEmpty())

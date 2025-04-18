@@ -1,5 +1,6 @@
 package com.naifer.wigsshop.wigsshopping.shoppingcarts;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -10,12 +11,17 @@ import org.springframework.stereotype.Component;
 
 import com.naifer.wigsshop.wigsshopping.productcategories.exception.ProductCategoryNotFoundException;
 import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItem;
+import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItemDTO;
+import com.naifer.wigsshop.wigsshopping.utils.IImageService;
 
 @Component
 public class ShoppingCartService {
 
 	@Autowired
 	private ShoppingCartRepository shoppingCartRepository;
+	
+	@Autowired
+	private IImageService imageService;
 	
 	public List<ShoppingCart> getCarts(){
 		List<ShoppingCart> carts = shoppingCartRepository.findAll();
@@ -26,13 +32,39 @@ public class ShoppingCartService {
 		return carts;
 	}
 	
-	public ShoppingCart getCartById(UUID id) {
+	public ShoppingCartDTO getCartById(UUID id) {
 		Optional<ShoppingCart> cart = shoppingCartRepository.findById(id);
 		
 		if(cart.isEmpty())
 			throw new ProductCategoryNotFoundException("id"+ id);
 		
-		return cart.get();
+			ShoppingCart actualCart = cart.get();
+			ShoppingCartDTO shoppingCartDTO = new ShoppingCartDTO();
+			
+		List<ShoppingCartItemDTO> actualItems =	actualCart.getItems()
+					.stream()
+					.map(item -> {
+						ShoppingCartItemDTO itemDTO = new ShoppingCartItemDTO();
+						
+						itemDTO.setPrice(item.getProduct().getPrice());
+						itemDTO.setId(item.getId());
+						itemDTO.setQuantity(item.getQuantity());
+						itemDTO.setTitle(item.getProduct().getTitle());
+						itemDTO.setProductId(item.getProduct().getId());
+						try {
+							itemDTO.setProductImage(imageService.getImage(item.getProduct()));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						
+						return itemDTO;
+					}).toList();
+		
+		shoppingCartDTO.setDateCreated(actualCart.getDateCreated());
+		shoppingCartDTO.setId(actualCart.getId());
+		shoppingCartDTO.setItems(actualItems);
+		
+		return shoppingCartDTO;
 	}
 	
 	public UUID createCart(Double dateCreated) {

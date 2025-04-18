@@ -20,7 +20,7 @@ public class ShoppingCartItem {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
-	@ManyToOne(cascade=CascadeType.ALL)
+	@ManyToOne()
 	@JoinColumn(name="fk_id")
 	private Product product;
 	private Integer quantity;

@@ -44,7 +44,7 @@ public class ProductResource {
 	
 	@GetMapping("shop/products/{id}")
 	public EntityModel<Product> getProductById(@PathVariable UUID id) throws IOException {
-		Product product = productService.getProductById(id);
+		Product product = productService.getProductByIdWithImageFile(id);
 	
 		EntityModel<Product> entityModel = EntityModel.of(product);
 		return entityModel;
