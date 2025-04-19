@@ -11,6 +11,7 @@ public class ShoppingCartItemDTO {
 	private UUID productId;
 	private double price;
 	private Integer quantity;
+	private String imageType;
 	
 	public ShoppingCartItemDTO() {
 		super();
@@ -18,7 +19,7 @@ public class ShoppingCartItemDTO {
 	}
 
 	public ShoppingCartItemDTO(UUID id, String title, byte[] productImage, UUID productId, double price,
-			Integer quantity) {
+			Integer quantity, String imageType) {
 		super();
 		this.id = id;
 		this.title = title;
@@ -26,6 +27,7 @@ public class ShoppingCartItemDTO {
 		this.productId = productId;
 		this.price = price;
 		this.quantity = quantity;
+		this.imageType = imageType;
 	}
 
 	public UUID getId() {
@@ -76,10 +78,18 @@ public class ShoppingCartItemDTO {
 		this.quantity = quantity;
 	}
 
+	public String getImageType() {
+		return imageType;
+	}
+
+	public void setImageType(String imageType) {
+		this.imageType = imageType;
+	}
+
 	@Override
 	public String toString() {
 		return "ShoppingCartItemDTO [id=" + id + ", title=" + title + ", productImage=" + Arrays.toString(productImage)
-				+ ", productId=" + productId + ", price=" + price + ", quantity=" + quantity + "]";
+				+ ", productId=" + productId + ", price=" + price + ", quantity=" + quantity + ", imageType="
+				+ imageType + "]";
 	}
-
 }

@@ -55,6 +55,7 @@ public class ShoppingCartService {
 						itemDTO.setQuantity(item.getQuantity());
 						itemDTO.setTitle(item.getProduct().getTitle());
 						itemDTO.setProductId(item.getProduct().getId());
+						itemDTO.setImageType(item.getProduct().getImageType());
 						try {
 							itemDTO.setProductImage(imageService.getImage(item.getProduct()));
 						} catch (IOException e) {
