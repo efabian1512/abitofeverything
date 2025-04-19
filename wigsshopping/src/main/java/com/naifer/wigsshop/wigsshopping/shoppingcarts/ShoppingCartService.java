@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 import com.naifer.wigsshop.wigsshopping.productcategories.exception.ProductCategoryNotFoundException;
 import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItem;
 import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingCartItemDTO;
+import com.naifer.wigsshop.wigsshopping.shoppingcartitems.ShoppingItemService;
 import com.naifer.wigsshop.wigsshopping.utils.IImageService;
 
 @Component
@@ -22,6 +23,9 @@ public class ShoppingCartService {
 	
 	@Autowired
 	private IImageService imageService;
+	
+	@Autowired
+	private ShoppingItemService shoppingItemService;
 	
 	public List<ShoppingCart> getCarts(){
 		List<ShoppingCart> carts = shoppingCartRepository.findAll();
@@ -88,6 +92,18 @@ public class ShoppingCartService {
 		cart.setItems(cartItems);
 		
 		return shoppingCartRepository.save(cart);
+	}
+	
+	public String clearCart(UUID id) {
+		Optional<ShoppingCart> savedCart = shoppingCartRepository.findById(id);
+		if(savedCart.isEmpty())
+			throw new ProductCategoryNotFoundException("id"+ id);
+		
+		ShoppingCart actualCart = savedCart.get();
+		
+		shoppingItemService.deleteAllInCart(actualCart.getItems());
+	
+		return "Cart cleared.";
 	}
 	
 }

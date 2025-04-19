@@ -70,4 +70,12 @@ public class ShoppingItemService {
 		
 		return "Item successfully deleted.";
 	}
+	
+	public void deleteAllInCart(List<ShoppingCartItem> list) {
+//		List<UUID> idList = list.stream().map(item -> item.getId()).toList();
+//		itemRepository.deleteAllById(idList);
+		
+		itemRepository.deleteAllInBatch(list);
+		
+	}
 }
