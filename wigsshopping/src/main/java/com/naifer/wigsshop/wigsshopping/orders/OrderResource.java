@@ -36,15 +36,16 @@ public class OrderResource {
 	}
 	
 	@PostMapping("shop/orders/save")
-	public ResponseEntity<Order> saveOrder(@RequestBody Order order){
+	public EntityModel<Order>  saveOrder(@RequestBody Order order){
 		Order savedOrder =	orderService.saveOrder(order);
 		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-				.path("/{id}")
-				.buildAndExpand(savedOrder.getId())
-				.toUri();
+//		URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+//				.path("/{id}")
+//				.buildAndExpand(savedOrder.getId())
+//				.toUri();
 
-		return ResponseEntity.created(location).build();
+		EntityModel<Order> entityModel = EntityModel.of(savedOrder);
+		return entityModel;
 	}
 	
 }

@@ -1,11 +1,11 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 
-import java.time.LocalDateTime;
 import java.util.UUID;
 import java.util.List;
 
 import com.naifer.wigsshop.wigsshopping.orderitems.OrderItem;
 import com.naifer.wigsshop.wigsshopping.shippings.ShippingInfo;
+import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -24,11 +24,16 @@ public class Order {
 	@GeneratedValue(strategy = GenerationType.UUID)
 	private UUID id;
 	
+	@ManyToOne()
+	@JoinColumn(name="user_fk_id", referencedColumnName = "id")
+	private UserInfo user;
+	
 	@Column(name="date_placed")
+	
 	private Double datePlaced;
 	
 	@ManyToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="fk_id")
+	@JoinColumn(name="fk_shipping_id", referencedColumnName = "id" )
 	private ShippingInfo shippingInfo;
 	
 	@OneToMany(cascade=CascadeType.ALL)
@@ -40,9 +45,10 @@ public class Order {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Order(UUID id, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items) {
+	public Order(UUID id, UserInfo user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items) {
 		super();
 		this.id = id;
+		this.user = user;
 		this.datePlaced = datePlaced;
 		this.shippingInfo = shippingInfo;
 		this.items = items;
@@ -54,6 +60,14 @@ public class Order {
 
 	public void setId(UUID id) {
 		this.id = id;
+	}
+
+	public UserInfo getUser() {
+		return user;
+	}
+
+	public void setUser(UserInfo user) {
+		this.user = user;
 	}
 
 	public Double getDatePlaced() {
@@ -82,8 +96,7 @@ public class Order {
 
 	@Override
 	public String toString() {
-		return "Order [id=" + id + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo + ", items=" + items
-				+ "]";
+		return "Order [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
+				+ ", items=" + items + "]";
 	}
-
 }
