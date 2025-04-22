@@ -1,6 +1,5 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 
-import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
@@ -10,10 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import org.springframework.hateoas.EntityModel;
-import org.springframework.http.ResponseEntity;
 
 @RestController
 public class OrderResource {
@@ -22,16 +19,16 @@ public class OrderResource {
 	private OrderService orderService;
 
 	@GetMapping("shop/orders")
-	public List<Order> getOrders(){
+	public List<OrderDTO> getOrders(){
 		return orderService.getOrders();
 	}
 	
 	@GetMapping("shop/orders/{id}")
-	public EntityModel<Order> getOrder(@PathVariable UUID id){
+	public EntityModel<OrderDTO> getOrder(@PathVariable UUID id){
 		
-		Order order = orderService.getOrder(id);
+		OrderDTO order = orderService.getOrder(id);
 		
-		EntityModel<Order> entityModel = EntityModel.of(order);
+		EntityModel<OrderDTO> entityModel = EntityModel.of(order);
 		return entityModel;
 	}
 	
