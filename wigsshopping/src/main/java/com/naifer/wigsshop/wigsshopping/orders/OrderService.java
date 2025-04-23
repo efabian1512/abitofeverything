@@ -74,6 +74,7 @@ public class OrderService {
 		orderDTO.setId(order.getId());
 		orderDTO.setItems(orderItemService.getOrderItemsWithProductImage(order.getItems()));
 		orderDTO.setShippingInfo(order.getShippingInfo());
+		orderDTO.setTotal(order.getTotal());
 		
 		return orderDTO;
 	}
