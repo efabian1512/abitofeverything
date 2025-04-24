@@ -10,6 +10,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusRequest;
+import com.naifer.wigsshop.wigsshopping.users.UserInfo;
+
 import org.springframework.hateoas.EntityModel;
 
 @RestController
@@ -32,6 +35,11 @@ public class OrderResource {
 		return entityModel;
 	}
 	
+	@GetMapping("shop/orders/byUser/{id}")
+	public List<OrderDTO> getOrdersByUser(@PathVariable UUID id){
+		return orderService.getOrdersByUser(id);
+	}
+	
 	@PostMapping("shop/orders/save")
 	public EntityModel<Order>  saveOrder(@RequestBody Order order){
 		Order savedOrder =	orderService.saveOrder(order);
@@ -42,6 +50,14 @@ public class OrderResource {
 //				.toUri();
 
 		EntityModel<Order> entityModel = EntityModel.of(savedOrder);
+		return entityModel;
+	}
+	
+	@PostMapping("shop/orders/update-status")
+	public EntityModel<OrderDTO>  updateOrderStatus(@RequestBody OrderStatusRequest request){
+		OrderDTO savedOrder =	orderService.updateOrderStatus(request.getStatus(), request.getOrderId());
+		
+		EntityModel<OrderDTO> entityModel = EntityModel.of(savedOrder);
 		return entityModel;
 	}
 	

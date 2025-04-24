@@ -8,8 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.naifer.wigsshop.wigsshopping.orderitems.OrderItemService;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
 import com.naifer.wigsshop.wigsshopping.productcategories.exception.ProductCategoryNotFoundException;
 import com.naifer.wigsshop.wigsshopping.users.UserDTO;
+import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
 @Component
 public class OrderService {
@@ -58,6 +60,33 @@ public class OrderService {
 		return orderRepository.save(order);
 	}
 	
+	
+	public List<OrderDTO> getOrdersByUser(UUID userId) {
+		
+	List<Order> orders = orderRepository.getOrdersByUserId(userId);
+		
+		if(orders.isEmpty())
+			return List.of();
+		
+		return orders.stream().map((order) -> {
+			OrderDTO orderDTO = getOrderDTO(order);
+			return orderDTO;
+			
+		}).toList();
+	}
+	
+	public OrderDTO updateOrderStatus(OrderStatus status, UUID orderId) {
+		Optional<Order> savedOrder = orderRepository.findById(orderId);
+		if(savedOrder.isEmpty())
+			throw new ProductCategoryNotFoundException("id"+ orderId);
+		
+		Order actualOrder = savedOrder.get();
+		
+		actualOrder.setStatus(status);
+		
+		return getOrderDTO(orderRepository.save(actualOrder));
+	}
+	
 	private OrderDTO getOrderDTO(Order order) {
 		OrderDTO orderDTO = new OrderDTO();
 		
@@ -75,8 +104,10 @@ public class OrderService {
 		orderDTO.setItems(orderItemService.getOrderItemsWithProductImage(order.getItems()));
 		orderDTO.setShippingInfo(order.getShippingInfo());
 		orderDTO.setTotal(order.getTotal());
+		orderDTO.setStatus(order.getStatus());
 		
 		return orderDTO;
 	}
+	
 	
 }

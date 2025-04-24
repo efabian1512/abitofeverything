@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import com.naifer.wigsshop.wigsshopping.orderitems.OrderItem;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.StatusTypes;
 import com.naifer.wigsshop.wigsshopping.shippings.ShippingInfo;
 import com.naifer.wigsshop.wigsshopping.users.UserDTO;
 
@@ -15,13 +17,14 @@ public class OrderDTO {
 	private ShippingInfo shippingInfo;
 	private List<OrderItem> items;
 	private double total;
+	private OrderStatus status;
 	
 	public OrderDTO() {
 		super();
 	}
 
 	public OrderDTO(UUID id, UserDTO user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
-			double total) {
+			double total, OrderStatus status) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -29,6 +32,7 @@ public class OrderDTO {
 		this.shippingInfo = shippingInfo;
 		this.items = items;
 		this.total = total;
+		this.status = status;
 	}
 
 	public UUID getId() {
@@ -79,9 +83,17 @@ public class OrderDTO {
 		this.total = total;
 	}
 
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "OrderDTO [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + "]";
+				+ ", items=" + items + ", total=" + total + ", status=" + status + "]";
 	}
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 import java.util.List;
 
 import com.naifer.wigsshop.wigsshopping.orderitems.OrderItem;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
 import com.naifer.wigsshop.wigsshopping.shippings.ShippingInfo;
 import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
@@ -41,6 +42,10 @@ public class Order {
 	private List<OrderItem> items;
 	
 	private double total;
+	
+	@ManyToOne(cascade=CascadeType.MERGE)
+	@JoinColumn(name="fk_status_id", referencedColumnName = "id" )
+	private OrderStatus status;
 
 	public Order() {
 		super();
@@ -48,7 +53,7 @@ public class Order {
 	}
 
 	public Order(UUID id, UserInfo user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
-			double total) {
+			double total, OrderStatus status) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -56,6 +61,7 @@ public class Order {
 		this.shippingInfo = shippingInfo;
 		this.items = items;
 		this.total = total;
+		this.status = status;
 	}
 
 	public UUID getId() {
@@ -106,9 +112,17 @@ public class Order {
 		this.total = total;
 	}
 
+	public OrderStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(OrderStatus status) {
+		this.status = status;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + "]";
+				+ ", items=" + items + ", total=" + total + ", status=" + status + "]";
 	}
 }
