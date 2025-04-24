@@ -11,6 +11,6 @@ import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 public interface OrderRepository extends JpaRepository<Order, UUID> {
 	List<Order> findByUser(UserInfo user);
 	
-	  @Query("SELECT o FROM Shop_Orders o WHERE o.user.id = :userId")
+	  @Query("SELECT o FROM Shopping_Orders o WHERE o.user.id = :userId")
 	    List<Order> getOrdersByUserId(@Param("userId") UUID userId);
 }

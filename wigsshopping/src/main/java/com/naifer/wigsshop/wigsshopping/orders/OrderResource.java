@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusRequest;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusService;
+import com.naifer.wigsshop.wigsshopping.orderstatuses.StatusTypes;
 import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
 import org.springframework.hateoas.EntityModel;
@@ -20,6 +23,9 @@ public class OrderResource {
 	
 	@Autowired
 	private OrderService orderService;
+	
+	@Autowired
+	private OrderStatusService orderStatusService;
 
 	@GetMapping("shop/orders")
 	public List<OrderDTO> getOrders(){
@@ -42,6 +48,13 @@ public class OrderResource {
 	
 	@PostMapping("shop/orders/save")
 	public EntityModel<Order>  saveOrder(@RequestBody Order order){
+		
+		OrderStatus initialStatus = orderStatusService.findByStatusType(StatusTypes.PROCESSING);
+		
+//		initialStatus.setId(UUID.fromString("863bad71-492c-47c1-884d-7d83bc5f9ad2"));
+//		initialStatus.setStatus(StatusTypes.PROCESSING);
+		order.setStatusInfo(initialStatus);
+		
 		Order savedOrder =	orderService.saveOrder(order);
 		
 //		URI location = ServletUriComponentsBuilder.fromCurrentRequest()

@@ -58,4 +58,8 @@ public class OrderItemService {
 	public void deleteProduct(UUID itemId) {
 		itemRepository.deleteById(itemId);
 	}
+	
+	public void deleteAll() {
+		itemRepository.deleteAll();
+	}
 }

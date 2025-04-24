@@ -17,14 +17,14 @@ public class OrderDTO {
 	private ShippingInfo shippingInfo;
 	private List<OrderItem> items;
 	private double total;
-	private OrderStatus status;
+	private OrderStatus statusInfo;
 	
 	public OrderDTO() {
 		super();
 	}
 
 	public OrderDTO(UUID id, UserDTO user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
-			double total, OrderStatus status) {
+			double total, OrderStatus statusInfo) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -32,7 +32,7 @@ public class OrderDTO {
 		this.shippingInfo = shippingInfo;
 		this.items = items;
 		this.total = total;
-		this.status = status;
+		this.statusInfo = statusInfo;
 	}
 
 	public UUID getId() {
@@ -83,17 +83,17 @@ public class OrderDTO {
 		this.total = total;
 	}
 
-	public OrderStatus getStatus() {
-		return status;
+	public OrderStatus getStatusInfo() {
+		return statusInfo;
 	}
 
-	public void setStatus(OrderStatus status) {
-		this.status = status;
+	public void setStatusInfo(OrderStatus statusInfo) {
+		this.statusInfo = statusInfo;
 	}
 
 	@Override
 	public String toString() {
 		return "OrderDTO [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + ", status=" + status + "]";
+				+ ", items=" + items + ", total=" + total + ", status=" + statusInfo + "]";
 	}
 }

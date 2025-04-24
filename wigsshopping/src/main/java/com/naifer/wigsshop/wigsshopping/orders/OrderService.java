@@ -75,16 +75,20 @@ public class OrderService {
 		}).toList();
 	}
 	
-	public OrderDTO updateOrderStatus(OrderStatus status, UUID orderId) {
+	public OrderDTO updateOrderStatus(OrderStatus statusInfo, UUID orderId) {
 		Optional<Order> savedOrder = orderRepository.findById(orderId);
 		if(savedOrder.isEmpty())
 			throw new ProductCategoryNotFoundException("id"+ orderId);
 		
 		Order actualOrder = savedOrder.get();
 		
-		actualOrder.setStatus(status);
+		actualOrder.setStatusInfo(statusInfo);
 		
 		return getOrderDTO(orderRepository.save(actualOrder));
+	}
+	
+	public void deleteAll() {
+		orderRepository.deleteAll();
 	}
 	
 	private OrderDTO getOrderDTO(Order order) {
@@ -104,10 +108,12 @@ public class OrderService {
 		orderDTO.setItems(orderItemService.getOrderItemsWithProductImage(order.getItems()));
 		orderDTO.setShippingInfo(order.getShippingInfo());
 		orderDTO.setTotal(order.getTotal());
-		orderDTO.setStatus(order.getStatus());
+		orderDTO.setStatusInfo(order.getStatusInfo());
 		
 		return orderDTO;
 	}
+	
+	
 	
 	
 }

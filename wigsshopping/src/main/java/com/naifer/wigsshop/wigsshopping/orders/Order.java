@@ -18,7 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
-@Entity(name="Shop_Orders")
+@Entity(name="Shopping_Orders")
 public class Order {
 
 	@Id
@@ -45,7 +45,7 @@ public class Order {
 	
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="fk_status_id", referencedColumnName = "id" )
-	private OrderStatus status;
+	private OrderStatus statusInfo;
 
 	public Order() {
 		super();
@@ -53,7 +53,7 @@ public class Order {
 	}
 
 	public Order(UUID id, UserInfo user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
-			double total, OrderStatus status) {
+			double total, OrderStatus statusInfo) {
 		super();
 		this.id = id;
 		this.user = user;
@@ -61,7 +61,7 @@ public class Order {
 		this.shippingInfo = shippingInfo;
 		this.items = items;
 		this.total = total;
-		this.status = status;
+		this.statusInfo = statusInfo;
 	}
 
 	public UUID getId() {
@@ -112,17 +112,17 @@ public class Order {
 		this.total = total;
 	}
 
-	public OrderStatus getStatus() {
-		return status;
+	public OrderStatus getStatusInfo() {
+		return statusInfo;
 	}
 
-	public void setStatus(OrderStatus status) {
-		this.status = status;
+	public void setStatusInfo(OrderStatus statusInfo) {
+		this.statusInfo = statusInfo;
 	}
 
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + ", status=" + status + "]";
+				+ ", items=" + items + ", total=" + total + ", status=" + statusInfo + "]";
 	}
 }

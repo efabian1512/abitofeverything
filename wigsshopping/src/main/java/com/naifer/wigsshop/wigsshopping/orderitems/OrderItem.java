@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
-@Entity(name="order_items")
+@Entity(name="shop_order_items")
 public class OrderItem {
 
 	@Id
