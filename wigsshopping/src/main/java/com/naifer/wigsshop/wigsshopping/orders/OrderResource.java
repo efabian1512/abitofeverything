@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,7 +15,6 @@ import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusRequest;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusService;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.StatusTypes;
-import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
 import org.springframework.hateoas.EntityModel;
 
@@ -66,7 +66,7 @@ public class OrderResource {
 		return entityModel;
 	}
 	
-	@PostMapping("shop/orders/update-status")
+	@PutMapping("shop/orders/update-status")
 	public EntityModel<OrderDTO>  updateOrderStatus(@RequestBody OrderStatusRequest request){
 		OrderDTO savedOrder =	orderService.updateOrderStatus(request.getStatus(), request.getOrderId());
 		
