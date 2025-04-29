@@ -113,7 +113,15 @@ public class OrderService {
 		return orderDTO;
 	}
 	
-	
+	public Optional<Order>  getOrderByPaymentId(String paymentId) {
+		
+		Optional<Order> savedOrder = orderRepository.findByPaymentId(paymentId);
+		
+//		if(savedOrder.isEmpty())
+//			throw new RuntimeException("Order with payment id "+paymentId+"was not found.");
+		
+		return savedOrder;
+	}
 	
 	
 }

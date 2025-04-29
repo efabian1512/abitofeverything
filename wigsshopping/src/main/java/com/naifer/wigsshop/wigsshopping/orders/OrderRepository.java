@@ -1,5 +1,6 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
 	
 	  @Query("SELECT o FROM Shopping_Orders o WHERE o.user.id = :userId")
 	    List<Order> getOrdersByUserId(@Param("userId") UUID userId);
+	  
+	  Optional<Order> findByPaymentId(String paymentId);
 }

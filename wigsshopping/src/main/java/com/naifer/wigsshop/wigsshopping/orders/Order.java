@@ -17,6 +17,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotNull;
 
 @Entity(name="Shopping_Orders")
 public class Order {
@@ -37,6 +38,7 @@ public class Order {
 	@JoinColumn(name="fk_shipping_id", referencedColumnName = "id" )
 	private ShippingInfo shippingInfo;
 	
+	@Column(nullable = false)
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_order_id", referencedColumnName = "id" )
 	private List<OrderItem> items;
@@ -46,22 +48,13 @@ public class Order {
 	@ManyToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="fk_status_id", referencedColumnName = "id" )
 	private OrderStatus statusInfo;
+	
+	@Column(name="payment_id")
+	private String paymentId;
 
 	public Order() {
 		super();
 		// TODO Auto-generated constructor stub
-	}
-
-	public Order(UUID id, UserInfo user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
-			double total, OrderStatus statusInfo) {
-		super();
-		this.id = id;
-		this.user = user;
-		this.datePlaced = datePlaced;
-		this.shippingInfo = shippingInfo;
-		this.items = items;
-		this.total = total;
-		this.statusInfo = statusInfo;
 	}
 
 	public UUID getId() {
@@ -120,9 +113,18 @@ public class Order {
 		this.statusInfo = statusInfo;
 	}
 
+	public String getPaymentId() {
+		return paymentId;
+	}
+
+	public void setPaymentId(String paymentId) {
+		this.paymentId = paymentId;
+	}
+
 	@Override
 	public String toString() {
 		return "Order [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + ", status=" + statusInfo + "]";
+				+ ", items=" + items + ", total=" + total + ", statusInfo=" + statusInfo + ", PaymentId=" + paymentId
+				+ "]";
 	}
 }

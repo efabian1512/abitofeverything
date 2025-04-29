@@ -1,6 +1,7 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,10 @@ import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusRequest;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatusService;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.StatusTypes;
+import com.naifer.wihsshop.generic.GenericResponse;
 
 import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
 
 @RestController
 public class OrderResource {
@@ -47,7 +50,24 @@ public class OrderResource {
 	}
 	
 	@PostMapping("shop/orders/save")
-	public EntityModel<Order>  saveOrder(@RequestBody Order order){
+	public ResponseEntity<GenericResponse<Object>> saveOrder(@RequestBody Order order){
+		
+		Optional<Order> optionalSavedOrder = orderService.getOrderByPaymentId(order.getPaymentId());
+		
+		GenericResponse<Object> resp = new GenericResponse<Object>();
+		
+		
+		
+//		if(optionalSavedOrder.isPresent()) {
+//			resp.setData("This order is already placed.");
+//			resp.setSuccess(false);
+//			return ResponseEntity.ok().body(resp);
+//		}
+		
+		if(optionalSavedOrder.isPresent())
+			throw new RuntimeException("This order is already placed.");
+			
+			//return "payment is already registered for this cart";
 		
 		OrderStatus initialStatus = orderStatusService.findByStatusType(StatusTypes.PROCESSING);
 		
@@ -61,9 +81,10 @@ public class OrderResource {
 //				.path("/{id}")
 //				.buildAndExpand(savedOrder.getId())
 //				.toUri();
-
 		EntityModel<Order> entityModel = EntityModel.of(savedOrder);
-		return entityModel;
+		resp.setData(entityModel);
+		resp.setSuccess(true);
+		return ResponseEntity.ok().body(resp);
 	}
 	
 	@PutMapping("shop/orders/update-status")
