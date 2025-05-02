@@ -58,7 +58,7 @@ public class SecurityConfig {
 		return http.csrf(AbstractHttpConfigurer::disable)
 				//.formLogin(withDefaults())
 				.authorizeHttpRequests(auth ->{
-				auth.requestMatchers("/shop/products", "shop/products/**", "/users/register", "/shop/authenticate", "confirm-email", "shop/logout", "shop/users/update", "shop/categories", "shop/order-items", "shop/order-items/delete/**", "shop/items", "shop/items/delete/**", "shop/shoppingcarts/addToCart", "shop/shoppingcarts", "shop/shoppingcarts/**", "shop/shoppingcarts/create", "shop/items", "shop/items/update", "shop/categories/save", "shop/shoppingcart/clear", "shop/orders/save", "shop/orders", "shop/orders/**", "shop/orders/byUser", "shop/order/status/save", "shop/order/status-list", "shop/orders/update-status", "paypal/pay", "paypal/success", "paypal/cancel", "paypal/error")
+				auth.requestMatchers("/shop/products", "shop/products/**", "/users/register", "/shop/authenticate", "confirm-email", "shop/logout", "shop/users/update", "shop/categories", "shop/order-items", "shop/order-items/delete/**", "shop/items", "shop/items/delete/**", "shop/shoppingcarts/addToCart", "shop/shoppingcarts", "shop/shoppingcarts/**", "shop/shoppingcarts/create", "shop/items", "shop/items/update", "shop/categories/save", "shop/shoppingcart/clear", "shop/orders/save", "shop/orders", "shop/orders/**", "shop/orders/byUser", "shop/order/status/save", "shop/order/status-list", "shop/orders/update-status", "paypal/pay", "paypal/success", "paypal/cancel", "paypal/error", "/shop/card/checkout", "shop/create/checkout-session")
 				.permitAll()
 				.requestMatchers("/shop/products/**").authenticated();
 				
