@@ -88,9 +88,9 @@ public class AuthController {
 	@GetMapping("confirm-email")
 	public ResponseEntity<?> confirmEmail(@RequestParam("token") String token) {
 		if(userService.verifyUser(token)) {
-			return ResponseEntity.ok("Your email has been successfully verified");
+			return ResponseEntity.ok("¡Tu cuenta ha siso verificada correctamente!");
 		} else {
-			return ResponseEntity.ok("Link expired or token already  verified");
+			return ResponseEntity.ok("El link expiro o ya esta cuenta ha sido veriricada previamente.");
 		}
 	}
 	

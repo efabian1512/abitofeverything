@@ -1,6 +1,5 @@
 package com.naifer.wigsshop.wigsshopping.users;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -46,21 +45,21 @@ public class UserService {
 	 return users;
 	}
 	
-	public String addUser(UserInfo userInfo) throws MessagingException {
+	public String addUser(AddUserDTO userDTO) throws MessagingException {
 		
-		Optional<UserInfo> savedUser = userRepository.findByEmail(userInfo.getEmail());
+		Optional<UserInfo> savedUser = userRepository.findByEmail(userDTO.getUserInfo().getEmail());
 		
 		String message = "User successfully created";
 		if(savedUser.isPresent()) {
-			message = "Registration was unssucessful. User " + userInfo.getEmail()+ " already exists.";
+			message = "Registration was unssucessful. User " + userDTO.getUserInfo().getEmail()+ " already exists.";
 			return message;
 		//throw new RuntimeException(message);
 		}
 		
-		userInfo.setPassword(passwordEncoder.encode(userInfo.getPassword()));
-		userRepository.save(userInfo);
+		userDTO.getUserInfo().setPassword(passwordEncoder.encode(userDTO.getUserInfo().getPassword()));
+		userRepository.save(userDTO.getUserInfo());
 		
-		this.sendRegistrationConfirmationEmail(userInfo);
+		this.sendRegistrationConfirmationEmail(userDTO);
 		return message;
 	}
 	
@@ -76,17 +75,17 @@ public class UserService {
 		
 	}
 	
-	public void sendRegistrationConfirmationEmail(UserInfo user) throws MessagingException {
+	public void sendRegistrationConfirmationEmail(AddUserDTO userDTO) throws MessagingException {
 		
 		String tokenValue = new String(Base64.getEncoder().encodeToString(KeyGenerators.secureRandom(15).generateKey()));
 		EmailConfirmationToken emailConfirmationToken = new EmailConfirmationToken();
 		emailConfirmationToken.setToken(tokenValue);
 		emailConfirmationToken.setTimeStamp(LocalDateTime.now());
-		emailConfirmationToken.setUser(user);
+		emailConfirmationToken.setUser(userDTO.getUserInfo());
 		
 		emailTokenRepository.save(emailConfirmationToken);
 		
-		emailService.sendConfirmationEmail(emailConfirmationToken);
+		emailService.sendConfirmationEmail(emailConfirmationToken, userDTO.getConfirmationUrl());
 	}
 	
 	public boolean verifyUser(String token) throws RuntimeException {

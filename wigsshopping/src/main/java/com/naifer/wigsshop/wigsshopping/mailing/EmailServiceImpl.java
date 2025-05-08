@@ -15,7 +15,7 @@ public class EmailServiceImpl implements EmailService {
 	private JavaMailSender sender;
 	
 	@Override
-	public void sendConfirmationEmail(EmailConfirmationToken emailConfirmationToken) throws MessagingException {
+	public void sendConfirmationEmail(EmailConfirmationToken emailConfirmationToken, String confirmationURL) throws MessagingException {
 		//MIME - HTML message
 		
 		MimeMessage message = sender.createMimeMessage();
@@ -27,7 +27,7 @@ public class EmailServiceImpl implements EmailService {
 					"<h2> Dear "+ emailConfirmationToken.getUser().getName() + ".</h2>"
 					+ "<br/> We're excited to have you get started. "
 					+ "Please click on below link to confirm your account."
-					+ "<br/>" + generateConfirmationLink(emailConfirmationToken.getToken())+""+
+					+ "<br/>" + generateConfirmationLink(emailConfirmationToken.getToken(), confirmationURL)+""+
 					"<br/> Regards, <br/>"+
 					"A bit of Everything Registration team"+
 					"</body>"+
@@ -36,8 +36,9 @@ public class EmailServiceImpl implements EmailService {
 		sender.send(message);
 	}
 	
-	private String generateConfirmationLink(String token) {
-		return "<a href=http://localhost:9090/confirm-email?token="+token+">Confirm Email</a>";
+	private String generateConfirmationLink(String token, String confirmationURL) {
+		return "<a href="+confirmationURL+"?token="+token+">Confirm Email</a>";
+		//return "<a href=http://localhost:9090/confirm-email?token="+token+">Confirm Email</a>";
 	}
 
 }

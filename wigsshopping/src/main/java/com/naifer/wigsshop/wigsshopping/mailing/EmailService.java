@@ -7,5 +7,5 @@ import jakarta.mail.MessagingException;
 @Component
 public interface EmailService {
 	
-	void sendConfirmationEmail(EmailConfirmationToken emailConfirmationToken) throws MessagingException;
+	void sendConfirmationEmail(EmailConfirmationToken emailConfirmationToken, String confirmationURL) throws MessagingException;
 }

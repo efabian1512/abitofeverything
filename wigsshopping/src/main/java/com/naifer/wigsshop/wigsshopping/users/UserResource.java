@@ -24,19 +24,19 @@ import jakarta.validation.Valid;
 public class UserResource {
 	@Autowired
 	private UserService userService; 
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@GetMapping("users/getAll")
 	public List<UserInfo> getUsers(){
 		return userService.getUsers();
 	}
 	
 	@PostMapping("users/register")
-	public String addNewUser(@RequestBody UserInfo userInfo) throws MessagingException {
+	public String addNewUser(@RequestBody AddUserDTO userDTO) throws MessagingException {
 		
-		return userService.addUser(userInfo);
+		return userService.addUser(userDTO);
 	}
 	
-	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//	@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 	@DeleteMapping("users/delete/{id}")
 	public String deleteUser(@PathVariable UUID id) {
 		return userService.deleteUser(id);
