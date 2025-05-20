@@ -1,17 +1,16 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 
 import java.util.List;
-import java.util.UUID;
 
 import com.naifer.wigsshop.wigsshopping.orderitems.OrderItem;
 import com.naifer.wigsshop.wigsshopping.orderstatuses.OrderStatus;
-import com.naifer.wigsshop.wigsshopping.orderstatuses.StatusTypes;
 import com.naifer.wigsshop.wigsshopping.shippings.ShippingInfo;
 import com.naifer.wigsshop.wigsshopping.users.UserDTO;
 
+
 public class OrderDTO {
 	
-	private UUID id;
+	private String id;
 	private UserDTO user;
 	private Double datePlaced;
 	private ShippingInfo shippingInfo;
@@ -23,7 +22,7 @@ public class OrderDTO {
 		super();
 	}
 
-	public OrderDTO(UUID id, UserDTO user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
+	public OrderDTO(String id, UserDTO user, Double datePlaced, ShippingInfo shippingInfo, List<OrderItem> items,
 			double total, OrderStatus statusInfo) {
 		super();
 		this.id = id;
@@ -35,11 +34,11 @@ public class OrderDTO {
 		this.statusInfo = statusInfo;
 	}
 
-	public UUID getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(UUID id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -94,6 +93,6 @@ public class OrderDTO {
 	@Override
 	public String toString() {
 		return "OrderDTO [id=" + id + ", user=" + user + ", datePlaced=" + datePlaced + ", shippingInfo=" + shippingInfo
-				+ ", items=" + items + ", total=" + total + ", status=" + statusInfo + "]";
+				+ ", items=" + items + ", total=" + total + ", statusInfo=" + statusInfo + "]";
 	}
 }

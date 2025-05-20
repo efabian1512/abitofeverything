@@ -9,10 +9,10 @@ import org.springframework.data.repository.query.Param;
 
 import com.naifer.wigsshop.wigsshopping.users.UserInfo;
 
-public interface OrderRepository extends JpaRepository<Order, UUID> {
+public interface OrderRepository extends JpaRepository<Order, String> {
 	List<Order> findByUser(UserInfo user);
 	
-	  @Query("SELECT o FROM Shopping_Orders o WHERE o.user.id = :userId")
+	  @Query("SELECT o FROM A_bit_Shopping_Orders o WHERE o.user.id = :userId")
 	    List<Order> getOrdersByUserId(@Param("userId") UUID userId);
 	  
 	  Optional<Order> findByPaymentId(String paymentId);

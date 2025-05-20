@@ -36,7 +36,7 @@ public class OrderResource {
 	}
 	
 	@GetMapping("shop/orders/{id}")
-	public EntityModel<OrderDTO> getOrder(@PathVariable UUID id){
+	public EntityModel<OrderDTO> getOrder(@PathVariable String id){
 		
 		OrderDTO order = orderService.getOrder(id);
 		

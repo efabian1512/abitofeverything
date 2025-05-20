@@ -1,5 +1,6 @@
 package com.naifer.wigsshop.wigsshopping.orders;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -35,7 +36,7 @@ public class OrderService {
 		}).toList();
 	}
 	
-	public OrderDTO getOrder(UUID id) {
+	public OrderDTO getOrder(String id) {
 		Optional<Order> savedOrder = orderRepository.findById(id);
 		
 		
@@ -75,7 +76,7 @@ public class OrderService {
 		}).toList();
 	}
 	
-	public OrderDTO updateOrderStatus(OrderStatus statusInfo, UUID orderId) {
+	public OrderDTO updateOrderStatus(OrderStatus statusInfo, String orderId) {
 		Optional<Order> savedOrder = orderRepository.findById(orderId);
 		if(savedOrder.isEmpty())
 			throw new ProductCategoryNotFoundException("id"+ orderId);
@@ -121,6 +122,11 @@ public class OrderService {
 //			throw new RuntimeException("Order with payment id "+paymentId+"was not found.");
 		
 		return savedOrder;
+	}
+	
+	private String getOrderIdBusiness(int id){
+	    DecimalFormat myFormatter = new DecimalFormat("ORD000000");
+	    return myFormatter.format(id);
 	}
 	
 	

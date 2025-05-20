@@ -1,10 +1,8 @@
 package com.naifer.wigsshop.wigsshopping.orderstatuses;
 
-import java.util.UUID;
-
 public class OrderStatusRequest {
 	
-	private UUID orderId;
+	private String orderId;
 	private OrderStatus status;
 	
 	public OrderStatusRequest() {
@@ -12,17 +10,17 @@ public class OrderStatusRequest {
 		// TODO Auto-generated constructor stub
 	}
 
-	public OrderStatusRequest(UUID orderId, OrderStatus status) {
+	public OrderStatusRequest(String orderId, OrderStatus status) {
 		super();
 		this.orderId = orderId;
 		this.status = status;
 	}
 
-	public UUID getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
 
-	public void setOrderId(UUID id) {
+	public void setOrderId(String id) {
 		this.orderId = id;
 	}
 
